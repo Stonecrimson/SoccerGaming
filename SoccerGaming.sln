@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerGaming", "SoccerGaming\SoccerGaming.csproj", "{F44F6E4F-95EE-4DE5-8531-2D02D90A853B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{F592EDC1-FC8A-47A9-BF1F-F2CD6BC97922}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLogger", "ConsoleApp1\DataLogger.csproj", "{F592EDC1-FC8A-47A9-BF1F-F2CD6BC97922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
