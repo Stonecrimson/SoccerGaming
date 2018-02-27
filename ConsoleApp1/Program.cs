@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading; 
 using System.IO.Ports;
+using System.Diagnostics; 
 
 using SoccerGaming;  
 
@@ -11,21 +12,23 @@ namespace DataLogger
 {
     class Program
     {
-
+        static Stopwatch timer; 
         static int counter = 0;
         static string file;
         static string testNumber;
-        static string[] hits;
-        static int trials; 
+        static string hits;
+        static int trials;
+        static long time; 
         static void Main(string[] args)
         {
-            Console.WriteLine("Test Number?");
+            timer = new Stopwatch(); 
+            Console.WriteLine("Filename?");
             testNumber = Console.ReadLine();
             Console.WriteLine("Number of Trials?");
             int.TryParse(Console.ReadLine(), out trials);
-            hits = new string[trials]; 
-            
-                SerialPort sp = new SerialPort("COM3", 9600);
+            hits = "";  
+            timer.Start(); 
+                SerialPort sp = new SerialPort("COM3", 115200);
 
                 sp.Open();
             sp.DiscardInBuffer(); 
@@ -36,9 +39,11 @@ namespace DataLogger
             Console.WriteLine("Press any key to write to file and exit, do not exit until tests are complete");
             Console.ReadKey();
 
-            System.IO.File.WriteAllLines(@"C:\Users\Public\TestResults\Test" + testNumber + ".csv", hits);
+            string filepath = @"C:\Users\Public\TestResults\" + testNumber + ".csv";
+            char[] array =hits.ToCharArray();
+            System.IO.File.WriteAllText(filepath, hits); 
 
-
+            timer.Stop(); 
         }
 
         private static void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -49,18 +54,13 @@ namespace DataLogger
                 Console.WriteLine("Test Complete"); 
                 return; 
             }
-            Thread.Sleep(50); 
+            Thread.Sleep(5); 
             SerialPort sp = (SerialPort)sender;
-            string data = sp.ReadExisting();
-            if (data[0] == 'H')
+            while (sp.BytesToRead > 0)
             {
-                Console.WriteLine("HIT");
-                char[] sep = { ' ', ',' }; 
-                string[] toks = data.Split(sep);
-                string newValue = toks[1] + "," + toks[2]; 
-                hits[counter] = newValue;
+                hits += sp.ReadExisting(); 
             }
-            counter++; 
+
         }
     }
 }
